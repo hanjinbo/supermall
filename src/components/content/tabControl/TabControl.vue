@@ -28,6 +28,7 @@ export default {
   methods: {
     itemClcik(index) {
       this.currentIndex = index;
+      this.$emit("controlNum",index)
     }
   }
 };
