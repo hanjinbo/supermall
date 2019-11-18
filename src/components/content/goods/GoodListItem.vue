@@ -3,6 +3,7 @@
     <img
       :src="goodsItem.show.img"
       alt=""
+      @load="loadImage"
     >
     <div class="goods-info">
       <p class="goods-item-title">{{goodsItem.title}}</p>
@@ -20,6 +21,11 @@ export default {
       default() {
         return {};
       }
+    }
+  },
+  methods: {
+    loadImage() {
+      this.$bus.$emit("loadImage")
     }
   }
 };

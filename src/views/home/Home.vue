@@ -38,6 +38,7 @@ import BackTop from "components/content/backTop/BackTop";
 import Scroll from "components/common/scroll/Scroll";
 
 import { getHomeMultidata, getHomeGoods } from "network/home";
+import { debounce } from "common/utils";
 export default {
   name: "Home",
   data() {
@@ -75,6 +76,12 @@ export default {
     this.hgetHomeGoods("sell");
     this.hgetHomeGoods("new");
   },
+  mounted() {
+    const refresh = debounce(this.$refs.Hscroll.refresh, 50);
+    this.$bus.$on("loadImage", () => {
+      refresh();
+    });
+  },
   methods: {
     getHomeMultidata() {
       getHomeMultidata().then(res => {
@@ -87,6 +94,8 @@ export default {
       getHomeGoods(type, page).then(res => {
         this.goods[type].list.push(...res.data.list);
         this.goods[type].page += 1;
+
+        this.$refs.Hscroll.finishUp();
       });
     },
     clickScroll() {
