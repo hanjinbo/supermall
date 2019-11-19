@@ -1,5 +1,8 @@
 <template>
-  <div class="goods-item">
+  <div
+    class="goods-item"
+    @click="itemClick"
+  >
     <img
       :src="goodsItem.show.img"
       alt=""
@@ -25,7 +28,10 @@ export default {
   },
   methods: {
     loadImage() {
-      this.$bus.$emit("loadImage")
+      this.$bus.$emit("loadImage");
+    },
+    itemClick() {
+      this.$router.push("/detail/" + this.goodsItem.iid);
     }
   }
 };

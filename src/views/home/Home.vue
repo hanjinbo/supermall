@@ -3,6 +3,13 @@
     <nav-bar class="home-nav">
       <div slot="center">购物街</div>
     </nav-bar>
+    <tab-control
+      :titles="['流行', '新款', '精选']"
+      @controlNum="changeControl"
+      ref="tabControl1"
+      class="tabControl"
+      v-show="isFixed"
+    ></tab-control>
     <scroll
       class="content"
       ref="Hscroll"
@@ -11,12 +18,16 @@
       :pull-up-load="true"
       @pullingUp="loadMore"
     >
-      <home-swiper :banners="banners" />
+      <home-swiper
+        :banners="banners"
+        @swiperImgLoad="swiperImgLoad"
+      />
       <recommend-view :recommends="recommends" />
       <feature-view />
       <tab-control
         :titles="['流行', '新款', '精选']"
         @controlNum="changeControl"
+        ref="tabControl2"
       ></tab-control>
       <goods-list :goods="showGoods"></goods-list>
 
@@ -51,7 +62,9 @@ export default {
         sell: { page: 0, list: [] }
       },
       curentType: "pop",
-      backTopShow: false
+      backTopShow: false,
+      tabControlTop: 0,
+      isFixed: false
     };
   },
   computed: {
@@ -103,6 +116,7 @@ export default {
     },
     backTopScroll(option) {
       this.backTopShow = -option.y > 500;
+      this.isFixed = -option.y > this.tabControlTop;
     },
     changeControl(index) {
       switch (index) {
@@ -115,9 +129,14 @@ export default {
         case 2:
           this.curentType = "sell";
       }
+      this.$refs.tabControl1.currentIndex = index;
+      this.$refs.tabControl2.currentIndex = index;
     },
     loadMore() {
       this.hgetHomeGoods(this.curentType);
+    },
+    swiperImgLoad() {
+      this.tabControlTop = this.$refs.tabControl2.$el.offsetTop;
     }
   }
 };
@@ -126,20 +145,21 @@ export default {
 .home-nav {
   background-color: var(--color-tint);
   color: #fff;
-  position: fixed;
-  left: 0;
-  right: 0;
-  top: 0;
-  z-index: 9;
 }
 #home {
-  margin-top: 44px;
+  position: relative;
+  height: 100vh;
 }
 .content {
+  overflow: hidden;
   position: absolute;
   top: 44px;
   bottom: 49px;
   left: 0;
   right: 0;
+}
+.tabControl {
+  /* position: relative; */
+  z-index: 9;
 }
 </style>
