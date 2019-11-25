@@ -44,6 +44,7 @@ export default {
   },
   methods: {
     titleClick(index) {
+      this.$emit("tabTitleClick", index);
       this.currentIndex = index;
     },
     clickBack() {

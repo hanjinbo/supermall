@@ -4,7 +4,7 @@
     @click="itemClick"
   >
     <img
-      :src="goodsItem.show.img"
+      :src="showImage"
       alt=""
       @load="loadImage"
     >
@@ -32,6 +32,11 @@ export default {
     },
     itemClick() {
       this.$router.push("/detail/" + this.goodsItem.iid);
+    }
+  },
+  computed: {
+    showImage() {
+      return this.goodsItem.image || this.goodsItem.show.img;
     }
   }
 };
