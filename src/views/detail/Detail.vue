@@ -11,8 +11,7 @@
       :probe-type="3"
       @scroll="contentScroll"
     >
-      <detail-swiper :topImages="topImages">
-      </detail-swiper>
+      <detail-swiper :topImages="topImages"> </detail-swiper>
       <detail-base-info :goods="goods"></detail-base-info>
       <detail-shop-info :shop="shop"></detail-shop-info>
       <detail-goods-info
@@ -32,11 +31,8 @@
         ref="recommend"
       ></detail-recommend-info>
     </scroll>
-    <detail-bottom-bar></detail-bottom-bar>
-    <back-top
-      @click.native="clickScroll"
-      v-show="backTopShow"
-    ></back-top>
+    <detail-bottom-bar @addToCart="addToCart"></detail-bottom-bar>
+    <back-top @click.native="clickScroll" v-show="backTopShow"></back-top>
   </div>
 </template>
 <script>
@@ -153,6 +149,17 @@ export default {
     },
     clickScroll() {
       this.$refs.scroll.scrollTo(0, 0, 500);
+    },
+    addToCart() {
+      const obj = {
+        iid: this.iid,
+        image: this.topImages[0],
+        title: this.goods.title,
+        desc: this.goods.desc,
+        price: this.goods.realPrice
+      };
+      this.$store.commit("addCart", obj);
+      // console.log(this.$store.state.cartList);
     }
   }
 };
@@ -162,7 +169,7 @@ export default {
   height: 100vh;
   background: #fff;
   position: relative;
-  z-index: 9;
+  z-index: 1;
 }
 .detail-nav {
   position: relative;
@@ -170,6 +177,8 @@ export default {
   background: #fff;
 }
 .content {
-  height: calc(100% - 95px);
+  position: absolute;
+  top: 44px;
+  bottom: 60px;
 }
 </style>

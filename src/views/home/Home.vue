@@ -18,10 +18,7 @@
       :pull-up-load="true"
       @pullingUp="loadMore"
     >
-      <home-swiper
-        :banners="banners"
-        @swiperImgLoad="swiperImgLoad"
-      />
+      <home-swiper :banners="banners" @swiperImgLoad="swiperImgLoad" />
       <recommend-view :recommends="recommends" />
       <feature-view />
       <tab-control
@@ -30,12 +27,8 @@
         ref="tabControl2"
       ></tab-control>
       <goods-list :goods="showGoods"></goods-list>
-
     </scroll>
-    <back-top
-      @click.native="clickScroll"
-      v-show="backTopShow"
-    ></back-top>
+    <back-top @click.native="clickScroll" v-show="backTopShow"></back-top>
   </div>
 </template>
 <script>
@@ -94,6 +87,9 @@ export default {
     this.$bus.$on("loadImage", () => {
       refresh();
     });
+  },
+  activated() {
+    this.$refs.Hscroll.refresh();
   },
   methods: {
     getHomeMultidata() {
