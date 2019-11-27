@@ -4,18 +4,21 @@
       <div slot="center">购物车({{ cartLength }})</div>
     </nav-bar>
     <cart-list></cart-list>
+    <bottom-bar></bottom-bar>
   </div>
 </template>
 <script>
 import NavBar from "components/common/navbar/NavBar";
 import CartList from "./childComps/CartList";
+import BottomBar from "./childComps/BottomBar";
 
 import { mapGetters } from "vuex";
 export default {
   name: "Cart",
   components: {
     NavBar,
-    CartList
+    CartList,
+    BottomBar
   },
   computed: {
     ...mapGetters(["cartLength"])

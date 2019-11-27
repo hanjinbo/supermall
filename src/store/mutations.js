@@ -7,6 +7,7 @@ const mutations = {
       oldInfo.count += 1;
     } else {
       info.count = 1;
+      info.checked = true;
       state.cartList.push(info);
     }
   }
